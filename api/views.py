@@ -1,10 +1,10 @@
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render, redirect, render
 from .models import Post, Category, Profile, User, Comment
 from taggit.models import Tag
-from django.db.models import Q
+from django.db.models import Q, Count
 from .forms import PostForm, UserForm, ProfileForm, CategoryForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login
@@ -13,6 +13,17 @@ from .forms import RegisterForm
 from django import forms
 from django.http import JsonResponse
 from django.contrib.admin.views.decorators import staff_member_required
+
+import os
+import zipfile
+from django.conf import settings
+from .forms import ZipUploadForm
+from .models import ZipUpload
+from django.core.files.storage import FileSystemStorage
+from django.contrib import messages 
+import uuid
+from datetime import datetime
+
 
 def is_admin(user):
     return user.is_authenticated and user.is_staff
@@ -144,7 +155,7 @@ def post_search(request):
         Q(title__icontains=query) | Q(content__icontains=query)
     ).order_by('-created_at') if query else Post.objects.none()
 
-    paginator = Paginator(results, 5)
+    paginator = Paginator(results, 16)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     categories = Category.objects.all()
@@ -158,7 +169,7 @@ def post_search(request):
 def tagged_posts(request, tag_slug):
     tag = get_object_or_404(Tag, slug=tag_slug)
     posts = Post.objects.filter(tags=tag).order_by('-created_at')
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 16)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     categories = Category.objects.all()
@@ -170,29 +181,36 @@ def tagged_posts(request, tag_slug):
 
 def post_list(request):
     posts = Post.objects.all().order_by('-created_at')
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 16)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    categories = Category.objects.all()
+    # categories = Category.objects.all()
+
+    categories = Category.objects.annotate(post_count=Count('posts'))
+    
+    # categories_count = Category.objects.annotate(post_count=Count('post'))
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return render(request, "_post_list.html", {
             "page_obj": page_obj,
-            "categories": categories
+            "categories": categories,
+            # "categories_count": categories_count,
         })
     return render(request, "post_list.html", {
         "page_obj": page_obj,
-        "categories": categories
+        "categories": categories,
+        # "categories_count": categories_count,
     })
 
 
 def category_posts(request, slug):
     category = get_object_or_404(Category, slug=slug)
     posts = Post.objects.filter(category=category).order_by('-created_at')
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 16)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    categories = Category.objects.all()
+    # categories = Category.objects.all()
+    categories = Category.objects.annotate(post_count=Count('posts'))
     return render(request, "category_posts.html", {
         "category": category,
         "page_obj": page_obj,
@@ -205,23 +223,96 @@ def post_detail(request, slug):
     post.views += 1
     post.save()
 
-    related_posts = Post.objects.filter(category=post.category).exclude(id=post.id)[:6]
+    related_posts = Post.objects.filter(category=post.category).exclude(id=post.id)[:12]
     related_posts_side = Post.objects.filter(category=post.category).exclude(id=post.id).distinct()[:4]
-    categories = Category.objects.all()
+    categories = Category.objects.annotate(post_count=Count('posts'))
+    # categories = Category.objects.all()
 
     return render(request, "post_detail.html", {
         "post": post,
         "related_posts": related_posts,
         "categories": categories,
         "related_posts_side": related_posts_side,
+        'meta_title': post.title,
+        'meta_description': post.excerpt or post.content[:160],
+        'meta_keywords': ', '.join(tag.name for tag in post.tags.all()),
     })
 
 
 def contact_page(request):
-    return render(request, 'pages/contact.html')
+    categories = Category.objects.annotate(post_count=Count('posts'))
+    return render(request, 'pages/contact.html',{
+        "categories": categories,
+    })
 
 def privacy_page(request):
-    return render(request, 'pages/policy.html')
+    categories = Category.objects.annotate(post_count=Count('posts'))
+    return render(request, 'pages/policy.html',{
+        "categories": categories,
+    })
 
 def about_page(request):
-    return render(request, 'pages/about.html')
+    categories = Category.objects.annotate(post_count=Count('posts'))
+    return render(request, 'pages/about.html',{
+        "categories": categories,
+    })
+
+ZIP_UPLOAD_DIR = os.path.join(settings.MEDIA_ROOT, 'zips')
+
+def upload_zip(request):
+    form = ZipUploadForm()  # ✅ Ensure form is defined
+
+    download_url = None  # Default: nothing to show
+
+    if request.method == 'POST':
+        form = ZipUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file = request.FILES['zip_file']
+            filename = uploaded_file.name.replace(" ", "_")
+            unique_name = f"{os.path.splitext(filename)[0]}_{uuid.uuid4().hex[:8]}.zip"
+            save_path = os.path.join(settings.MEDIA_ROOT, 'zips', unique_name)
+            os.makedirs(os.path.dirname(save_path), exist_ok=True)
+            with open(save_path, 'wb+') as destination:
+                for chunk in uploaded_file.chunks():
+                    destination.write(chunk)
+            download_url = os.path.join(settings.MEDIA_URL, 'zips', unique_name)
+            messages.success(request, 'ZIP file uploaded successfully.')
+
+    # ✅ Handle listing and pagination
+    zip_dir = os.path.join(settings.MEDIA_ROOT, 'zips')
+    zip_files = []
+    if os.path.exists(zip_dir):
+        zip_files = sorted(os.listdir(zip_dir), reverse=True)
+
+    paginator = Paginator(zip_files, 16)  # 20 items per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    zip_files_info = []
+    for f in page_obj:
+        file_path = os.path.join(zip_dir, f)
+        file_stat = os.stat(file_path)
+        zip_files_info.append({
+            "name": f,
+            "url": os.path.join(settings.MEDIA_URL, "zips", f),
+            "size_mb": round(file_stat.st_size / (1024 * 1024), 2),
+            "uploaded_at": datetime.fromtimestamp(file_stat.st_mtime),
+        })
+
+    return render(request, "upload_zip.html", {
+        "form": form,
+        "download_url": download_url,
+        "zip_files": zip_files_info,
+        "page_obj": page_obj,
+    })
+
+
+def delete_zip(request, filename):
+    file_path = os.path.join(ZIP_UPLOAD_DIR, filename)
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        messages.success(request, f"{filename} deleted.")
+    else:
+        messages.error(request, "File not found.")
+    return redirect('upload_zip')
+

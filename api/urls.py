@@ -1,6 +1,11 @@
+from django.conf import settings
+from django.conf.urls.static import static
+
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from . import views
+
+from .views import upload_zip
 
 urlpatterns = [
     path('', views.post_list, name='post_list'),
@@ -8,11 +13,13 @@ urlpatterns = [
     path('add-category/', views.category_add, name='category_add'),
     path('category/edit/<slug:slug>/', views.category_edit, name='category_edit'),
     path('category/delete/<slug:slug>/', views.category_delete, name='category_delete'),
+
     path('post/<slug:slug>/', views.post_detail, name='post_detail'),
     path('add-post/', views.post_create, name='post_create'),
     path('post/<slug:slug>/edit/', views.post_edit, name='post_edit'),
     path('post/<slug:slug>/delete/', views.post_delete, name='post_delete'),
-    path('tag/<slug:tag_slug>/', views.tagged_posts, name='tagged_posts'),
+    path('tag/<str:tag_slug>/', views.tagged_posts, name='tagged_posts'),
+    
 
     path('search/', views.post_search, name='post_search'),
 
@@ -25,5 +32,11 @@ urlpatterns = [
     path('contact/', views.contact_page, name='contact'),
     path('privacy/', views.privacy_page, name='privacy'),
     path('about/', views.about_page, name='about'),
+
+    path('upload-zip/', upload_zip, name='upload_zip'),
+    path('delete-zip/<str:filename>/', views.delete_zip, name='delete_zip'),
    
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

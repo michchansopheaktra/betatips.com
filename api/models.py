@@ -55,12 +55,23 @@ class Post(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     content = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    published = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="posts")
     views = models.PositiveIntegerField(default=0)
     tags = TaggableManager()
     image = models.ImageField(upload_to='post_images/', blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts')
+    image_1 = models.ImageField(upload_to='post_images/', blank=True, null=True)
+    image_2 = models.ImageField(upload_to='post_images/', blank=True, null=True)
+    ads_1 = models.CharField(max_length=200, blank=True, null=True)
+    ads_2 = models.CharField(max_length=200, blank=True, null=True)
+    ads_3 = models.CharField(max_length=200, blank=True, null=True)
+    ads_4 = models.CharField(max_length=200, blank=True, null=True)
+    ads_5 = models.CharField(max_length=200, blank=True, null=True)
+    download = models.CharField(max_length=200, blank=True, null=True)
+    excerpt = models.TextField(blank=True, null=True)
 
 
 
@@ -74,3 +85,21 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("post_detail", kwargs={"slug": self.slug})
+
+    def excerpt(self):
+        return self.content[:150] + "..."
+
+
+class ZipUpload(models.Model):
+    zip_file = models.FileField(upload_to='zips/')
+    # extracted_path = models.CharField(max_length=255, blank=True, null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.zip_file.name
+
+    def filename(self):
+        return self.file.name.split('/')[-1]
+
+    def size_mb(self):
+        return round(self.file.size / (1024 * 1024), 2)  # Size in MB

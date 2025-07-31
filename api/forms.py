@@ -8,6 +8,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 
+from .models import ZipUpload
+
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
@@ -56,7 +58,7 @@ class ProfileForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content', 'category', 'tags', 'image', 'author']
+        fields = ['title', 'content', 'category', 'tags', 'image', 'author', 'image_1', 'image_2', 'download', 'ads_1', 'ads_2', 'ads_3', 'ads_4', 'ads_5']
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -69,7 +71,7 @@ class PostForm(forms.ModelForm):
                 'class': 'form-control'
             }),
             'tags': TagWidget(attrs={
-                'class': 'form-control',
+                'class': 'form-control', 'width=100%'
                 'placeholder': 'Add tags separated by commas'
             }),
             'image': forms.ClearableFileInput(attrs={
@@ -77,6 +79,24 @@ class PostForm(forms.ModelForm):
             }),
             'author': forms.Select(attrs={
                 'class': 'form-control'
+            }),
+            'download': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'ads_1': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'ads_2': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'ads_3': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'ads_4': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'ads_5': forms.TextInput(attrs={
+                'class': 'form-control',
             }),
         }
 
@@ -112,3 +132,10 @@ class RegisterForm(UserCreationForm):
             'class': 'form-control',
             'placeholder': 'Confirm password'
         })
+
+    # forms.py
+
+class ZipUploadForm(forms.ModelForm):
+    class Meta:
+        model = ZipUpload
+        fields = ['zip_file']

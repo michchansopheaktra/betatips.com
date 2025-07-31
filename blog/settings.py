@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'api',
     'taggit',
     'ckeditor',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [
@@ -120,7 +121,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -140,3 +142,13 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = 'post_list'
 LOGOUT_REDIRECT_URL = 'post_list'
 # LOGIN_REDIRECT_URL = 'profile_detail'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'height': 300,  # change this to the desired height
+        'width': '100%',  # or use a specific px like '600px'
+        # 'toolbar': 'full',
+        'autoParagraph': False,
+    }
+}
+
