@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %} 
+
+<h1>Posts tagged with "{{ tag.name }}"</h1>
+
+<!-- Show all categories (optional sidebar) -->
+<ul>
+    <li><a href="{% url 'post_list' %}">All</a></li>
+    {% for cat in categories %}
+        <li><a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a></li>
+    {% endfor %}
+</ul>
+
+<hr>
+
+{% for post in page_obj %}
+    <div>
+        <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+        <p>{{ post.content|truncatewords:30 }}</p>
+    </div>
+{% empty %}
+    <p>No posts found for this tag.</p>
+{% endfor %}
+
+<!-- Pagination -->
+<div>
+    {% if page_obj.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+</div>
+{% endblock %}

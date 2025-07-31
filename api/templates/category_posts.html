@@ -1,0 +1,140 @@
+<!-- blog/templates/blog/category_posts.html -->
+{% extends 'base.html' %}
+
+{% block content %} 
+
+<section class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="me-lg-4">
+                    <div class="col-lg-12">
+                        <ul class="pagination justify-content-center">
+                            <a href="{% url 'post_list' %}"><li class="px-4 py-3 btn btn-outline-primary mx-2 rounded">All</li></a>
+                            {% for cat in categories %}
+                            <a href="{{ cat.get_absolute_url }}"><li class="px-4 py-3 btn btn-outline-primary mx-2 rounded">{{ cat.name }}</li></a>
+                            {% empty %}
+                                <li>No categories available.</li>
+                            {% endfor %}
+                        </ul>
+                        <div class="pagination justify-content-center">
+                            {% if user.is_authenticated and user.is_staff %}
+                            <p><a href="{% url 'category_edit' category.slug %}">Edit Category</a> | <a href="{% url 'category_delete' category.slug %}">Delete Category</a></p>
+                            {% endif %}
+                        </div>
+                    </div>
+					<div class="row gy-5 my-3">
+                        {% for post in page_obj %}
+						<div class="col-md-3" data-aos="fade">
+							<article class="blog-post">
+								<div class="post-slider slider-sm rounded">
+									<a href="{{ post.get_absolute_url }}"><img loading="lazy" decoding="async" src="{{ post.image.url }}" alt="Post Thumbnail"></a>
+								</div>
+								<div class="pt-2">
+									<!-- <p class="mb-3">14 Mar, 2020</p> -->
+                                    <h6 class="h6"><a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a> / {{post.created_at.date}} / Download : {{ post.views }}</h6>
+									<h5 class="h5"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h5>
+									<!-- <p>{{ post.content|truncatewords:30|safe }}</p> -->
+								</div>
+							</article>
+						</div>
+                        {% endfor %}
+                    
+						
+						<div class="col-12">
+							<nav class="mt-4">
+								<!-- pagination -->
+								<nav class="mb-md-50">
+									<ul class="pagination justify-content-center">
+                                        {% if page_obj.has_previous %}
+											<a class="page-link page-link px-4 py-3 btn btn-outline-primary mx-2 rounded" href="?page={{ page_obj.previous_page_number }}" aria-label="Pagination Arrow"><< Prev</a>
+                                        {% endif %}
+                                        
+                                        {% for num in page_obj.paginator.page_range %}
+                                            
+                                            {% if page_obj.number == num %}
+                                            <strong class="px-4 py-3 btn btn-primary rounded">{{ num }}</strong></li>
+                                            {% else %}
+                                            <a class="px-4 py-3 btn btn-outline-primary mx-2 rounded" href="?page={{ num }}">{{ num }}</a>
+                                            {% endif %}
+                                        {% endfor %}
+
+
+                                        <!-- <li class="page-item"> <a href="blog.html" class="page-link">2</a></li> -->
+
+                                        {% if page_obj.has_next %}
+											<a class="page-link px-4 py-3 btn btn-outline-primary mx-2 rounded" href="?page={{ page_obj.next_page_number }}" aria-label="Pagination Arrow"> Next >></a>
+                                        {% endif %}
+                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                        <script>
+                                            $(document).on('click', '.page-link', function (e) {
+                                                e.preventDefault();
+                                                const pageUrl = $(this).attr('href');
+                                                $.get(pageUrl, function (data) {
+                                                    const newPosts = $(data).find('#post-container').html();
+                                                    const newPagination = $(data).find('#pagination').html();
+                                                    $('#post-container').html(newPosts);
+                                                    $('#pagination').html(newPagination);
+                                                });
+                                            });
+                                        </script>
+									</ul>
+								</nav>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<!-- {% if user.is_authenticated and user.is_staff %}
+<h1>Posts in Category: {{ category.name }}</h1>
+<p><a href="{% url 'category_edit' category.slug %}">Edit Category</a> | <a href="{% url 'category_delete' category.slug %}">Delete Category</a></p>
+{% endif %} -->
+<!-- Display All Categories -->
+<!-- <div>
+    <strong>All Categories:</strong>
+    <ul>
+        <li><a href="{% url 'post_list' %}">All</a></li>
+        {% for cat in categories %}
+            <li><a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a></li>
+        {% empty %}
+            <li>No categories found.</li>
+        {% endfor %}
+    </ul>
+</div> -->
+
+    
+
+
+
+<!-- Display Paginated Posts in This Category -->
+<!-- {% for post in page_obj %}
+    <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+    <p>{{ post.content|truncatewords:30|safe }}</p>
+    <p><strong>Category:</strong> <a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a></p>
+    <hr>
+{% endfor %} -->
+
+<!-- Pagination -->
+<!-- <div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <strong>{{ num }}</strong>
+        {% else %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+    {% endif %}
+</div> -->
+{% endblock %}
