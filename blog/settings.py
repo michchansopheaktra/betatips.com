@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-v40*=5qv%)q^=sb-kpav+&uvc3!^%8jx%9nu%0_g@%$w^u^^$w
 DEBUG = False
 
 ALLOWED_HOSTS = ['betatips.com', 'wwww.betatips.com', '127.0.0.1']
-CSRF_TRUSTED_ORIGINS = ['https://betatips.com', 'https://www.betatips.com']
+CSRF_TRUSTED_ORIGINS = ['https://betatips.com', 'https://www.betatips.com',]
 
 
 # Application definition
