@@ -24,6 +24,8 @@ from django.contrib import messages
 import uuid
 from datetime import datetime
 
+import random
+
 
 def is_admin(user):
     return user.is_authenticated and user.is_staff
@@ -180,7 +182,7 @@ def tagged_posts(request, tag_slug):
     })
 
 def post_list(request):
-    posts = Post.objects.all().order_by('-created_at')
+    posts = Post.objects.all().order_by('?')
     paginator = Paginator(posts, 16)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
