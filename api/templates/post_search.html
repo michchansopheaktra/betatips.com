@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block content %} 
+
+<section class="my-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="me-lg-4">
+                    <div class="col-lg-12">
+                        <ul class="pagination flex-wrap justify-content-center gap-2 p-0 m-0">
+                            <li class="list-unstyled">
+                              <a href="{% url 'post_list' %}" class="btn btn-outline-primary px-4 py-3 rounded">
+                                All
+                              </a>
+                            </li>
+                            {% for cat in categories %}
+                              <li class="list-unstyled">
+                                <a href="{{ cat.get_absolute_url }}" class="btn btn-outline-primary px-4 py-3 rounded">
+                                  {{ cat.name }}
+                                </a>
+                              </li>
+                            {% empty %}
+                              <li>No categories available.</li>
+                            {% endfor %}
+                          </ul>
+                    </div>
+					<div class="row gy-5 my-3">
+                        <h3 class="text-center">Search Results for "{{ query }}"</h3>
+                        <hr>
+                        {% for post in page_obj %}
+						<div class="col-md-3" data-aos="fade">
+							<article class="blog-post">
+								<div class="post-slider slider-sm rounded">
+									<a href="{{ post.get_absolute_url }}"><img loading="lazy" decoding="async" src="{{ post.image.url }}" alt="Post Thumbnail"></a>
+								</div>
+								<div class="pt-2">
+									<!-- <p class="mb-3">14 Mar, 2020</p> -->
+                                    <h5 class="h6"><a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a> / {{post.created_at.date}} </h5>
+									<h5 class="h5"><a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:8 }}</a></h5>
+									<!-- <p>{{ post.content|truncatewords:30|safe }}</p> -->
+								</div>
+							</article>
+						</div>
+                        {% endfor %}
+                    
+
+            <div class="col-12">
+              <nav class="mt-4">
+                <!-- pagination -->
+                <nav aria-label="Page navigation">
+                  <ul class="pagination justify-content-center">
+                
+                    {% if page_obj.has_previous %}
+                        <a class="page-link btn btn-outline-primary mx-2" href="?q={{ query }}&page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                          &lt;&lt; Prev 
+                        </a>
+                    {% endif %}
+                
+                    {% for num in page_obj.paginator.page_range %}
+                      {% if num == 1 or num == page_obj.paginator.num_pages or num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
+                        {% if num == page_obj.number %}
+                          <li class="page-item active">
+                            <span class="page-link btn btn-outline-primary text-white">{{ num }}</span>
+                          </li>
+                        {% else %}
+                          <li class="page-item">
+                            <a class="page-link" href="?q={{ query }}&page={{ num }}">{{ num }}</a>
+                          </li>
+                        {% endif %}
+                      {% elif num == 2 and page_obj.number > 4 %}
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                      {% elif num == page_obj.paginator.num_pages|add:'-1' and page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                      {% endif %}
+                    {% endfor %}
+                
+                    {% if page_obj.has_next %}
+                        <a class="page-link btn btn-outline-primary mx-2" href="?q={{ query }}&page={{ page_obj.next_page_number }}" aria-label="Next">
+                          Next &gt;&gt; 
+                        </a>
+                    {% endif %}
+                
+                  </ul>
+                </nav>
+              </nav>
+            </div>
+            
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %} 
+
+<section class="my-5">
+	<div class="container">
+		<div class="row justify-content-center align-items-center">
+			<div class="col-lg-10">
+				<div class="shadow rounded p-5 bg-white">
+					<div class="row">
+						<div class="col-lg-12">
+              				<h2 class="text-center py-3">Add Post</h2>
+							<div class="contact-form">
+								{% if edit_mode and post.image %}
+								<p>Current Image:</p>
+								<img src="{{ post.image.url }}" width="200">
+								{% endif %}
+								<form method="post" enctype="multipart/form-data">
+									{% csrf_token %}
+									{{ u_form.as_p }}
+									{{ form.as_p }}
+									<button class="btn btn-primary w-100" type="submit">{% if edit_mode %}Update{% else %}Publish{% endif %}</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}

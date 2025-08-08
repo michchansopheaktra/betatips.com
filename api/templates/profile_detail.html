@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+
+
+<section class="my-5">
+	<div class="container">
+		<div class="row justify-content-center align-items-center">
+			<div class="col-lg-7">
+				<div class="section-title">
+					<!-- <p class="text-primary text-uppercase fw-bold mb-3">{{ profile_user.username }}'s Profile</p> -->
+					<h2 class="h1 mb-4 text-uppercase text-primary">{{ profile_user.username }}'s Profile</h2>
+					<div class="content pe-0 pe-lg-5">
+                        <p>{{ profile_user.profile.bio }}</p>
+				    </div>
+				</div>
+                <div class="col-lg-12 col-md-3 mt-4 mt-md-0">
+                    <ul class="list-unstyled list-inline mb-0 social-icons">
+                        {% if profile_user.profile.facebook %}
+                        <li class="list-inline-item me-3"><a title="Explorer Facebook Profile" class="text-black" href="{{ profile_user.profile.facebook }}"><i class="fab fa-facebook-f"></i></a></li>
+                        {% endif %}
+                        {% if profile_user.profile.twitter %}
+                        <li class="list-inline-item me-3"><a title="Explorer Facebook Profile" class="text-black" href="{{ profile_user.profile.twitter }}"><i class="fab fa-twitter"></i></a></li>
+                        {% endif %}
+                        {% if profile_user.profile.linkedin %}
+                        <li class="list-inline-item me-3"><a title="Explorer linkedin Profile" class="text-black" href="{{ profile_user.profile.linkedin }}"><i class="fab fa-linkedin"></i></a></li>
+                        {% endif %}
+                        {% if profile_user.profile.instagram %}
+                        <li class="list-inline-item me-3"><a title="Explorer instagram Profile" class="text-black" href="{{ profile_user.profile.instagram }}"><i class="fab fa-instagram"></i></a></li>
+                        {% endif %}
+                        <li class="list-inline-item me-3"><strong>Total Posts:</strong> {{ total_posts }}</li>
+                        <li class="list-inline-item me-3"><strong>Total Categories:</strong> {{ total_categories }}</li>
+                    </ul>
+                </div>
+			</div>
+			<div class="col-lg-4 mt-5 mt-lg-0">
+                {% if profile_user.profile.profile_picture %}
+				<img loading="lazy" decoding="async" src="{{ profile_user.profile.profile_picture.url }}" alt="Business Loans &lt;br&gt; For Daily Expenses" class="rounded w-100">
+                {% endif %}
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+{% endblock %}

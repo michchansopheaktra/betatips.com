@@ -1,0 +1,29 @@
+<!-- blog/templates/blog/post_confirm_delete.html -->
+{% extends 'base.html' %}
+{% block content %} 
+
+<section class="section">
+	<div class="container">
+		<div class="row justify-content-center align-items-center">
+			<div class="col-lg-10">
+				<div class="shadow rounded p-5 bg-white">
+					<div class="row">
+						<div class="col-lg-12">
+                            <h2 class="text-center py-3">Delete Post</h2>
+                            <p>Are you sure you want to delete "{{ post.title }}"?</p>
+							<div class="contact-form">
+								<form method="post" enctype="multipart/form-data">
+									{% csrf_token %}
+                                    <button class="btn btn-primary w-100 mb-3" type="submit">Yes, delete</button>
+                                    <a class="text-center" href="{% url 'post_list' %}">Cancel</a>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="page-header bg-tertiary">
+	<div class="container">
+		<div class="row">
+			<div class="col-8 mx-auto text-center">
+				<h2 class="mb-3 text-capitalize">Privacy Policy</h2>
+				<ul class="list-inline breadcrumbs text-capitalize" style="font-weight:500">
+					<li class="list-inline-item"><a href="{% url 'post_list' %}">Home</a>
+					</li>
+					<li class="list-inline-item">/ &nbsp; <a href="{% url 'privacy' %}">Privacy Policy</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	{% include "_page_header.html" %}
+</section>
+<section class="my-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1>Privacy Policy</h1>
+				<p>The Privacy Policy of <strong>BetaTips.com</strong> outlines how we collect, use, and safeguard your personal information. By using our services or visiting <strong>BetaTips.com</strong>, you agree to the terms described in this policy.</p>
+
+				<h2 class="h2">Requested Information</h2>
+				<p>We may collect personal details such as your name, email address, and website for surveys, mailing lists, or other relevant purposes. We only request information when it is necessary and explicitly mentioned at the point of collection.</p>
+
+				<h2>No Spam Policy</h2>
+				<p><strong>BetaTips.com</strong> follows a strict no-spam policy. We will not sell, rent, or share your personal information without your consent. You can unsubscribe from our mailing list at any time.</p>
+
+				<h2>Profile Data</h2>
+				<p>When registering, you may be asked to provide information for your public profile. Required fields such as "Name" are publicly visible, while other data may be private or optional. You can edit your data from the Profile settings. Site administrators can view and edit all user data.</p>
+
+				<h2>Disclosure</h2>
+				<p>Your personal data may be disclosed under legal obligation or to protect our rights and users. We do not take responsibility for third-party breaches.</p>
+
+				<h2>Personal vs. Non-Personal Information</h2>
+				<p>We may collect personal data (e.g., name, email) or non-personal data (e.g., browser type, device, OS) depending on your interaction with <strong>BetaTips.com</strong>.</p>
+
+				<h2>Use of Collected Information</h2>
+				<ul>
+					<li>To improve customer service and site functionality</li>
+					<li>To conduct surveys, promotions, or contests</li>
+					<li>To communicate relevant updates and newsletters</li>
+				</ul>
+
+				<h2>Activity</h2>
+				<p>Activity streams record user actions such as comments, profile updates, or group joins. Privacy settings apply based on context. Users can delete their own activity; admins have full control.</p>
+
+				<h2>Cookies</h2>
+				<p><strong>BetaTips.com</strong> uses cookies to enhance user experience and store preferences. These cookies do not contain personal data and are typically short-lived. You can disable cookies in your browser settings.</p>
+
+				<h2>Data Protection</h2>
+				<p>We use SSL and other appropriate security measures to protect your data from unauthorized access, alteration, or loss. Sensitive data is encrypted and securely processed.</p>
+
+				<h2>Sharing Information</h2>
+				<p>We do not sell or rent personal information. We may share anonymized, general data for analytical purposes or with trusted partners, only with your consent.</p>
+
+				<h2>Third-Party Services and Ads</h2>
+				<p><strong>BetaTips.com</strong> may feature third-party ads or links. These external sites have their own privacy policies. We are not responsible for their content or practices.</p>
+				<p>To opt out of Google’s use of cookies, visit <a href="http://www.google.com/privacy_ads.html" target="_blank">Google’s ad settings</a>.</p>
+
+				<h2>Children's Privacy</h2>
+				<p>We do not knowingly collect data from children under 13. Our services are not intended for users under this age.</p>
+
+				<h2>GDPR Compliance</h2>
+				<p>If you’re in the EU/EEA, you have rights under GDPR including:</p>
+				<ul>
+					<li>Access and request a copy of your data</li>
+					<li>Request data deletion</li>
+					<li>Object to data processing</li>
+					<li>Withdraw consent or update preferences</li>
+					<li>Edit or correct your personal data</li>
+				</ul>
+				<p>Requests will be processed within 30 days, with valid ID verification.</p>
+
+				<h2>Cookies for UX Feedback</h2>
+				<p>We use short-lived cookies to deliver success/failure messages and store filter/sorting preferences. These are removed after 24 hours.</p>
+
+				<h2>Modifications to This Policy</h2>
+				<p><strong>BetaTips.com</strong> may update this privacy policy at any time. Users are encouraged to review it regularly to stay informed. Continued use of the site indicates acceptance of any changes.</p>
+
+				<h2>Contact Forms</h2>
+				<p>To contact us, use our secure contact form. We only collect the data you voluntarily provide. Messages are sent via email and not stored on our servers. Note that internet data transmission may not be completely secure.</p>
+
+				<h2>Contact Us</h2>
+				<p>If you have any questions regarding this privacy policy, please email us at: <a href="mailto:support@betatips.com">support@betatips.com</a></p>
+
+				<p><em>Last updated: 20th July 2025</em></p>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}
