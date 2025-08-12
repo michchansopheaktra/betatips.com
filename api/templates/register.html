@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+
+<section class="my-5">
+	<div class="container">
+		<div class="row justify-content-center align-items-center">
+			<div class="col-lg-10">
+				<div class="shadow rounded p-5 bg-white">
+					<div class="row">
+						<div class="col-lg-12">
+                            <h2 class="text-center py-3">Register</h2>
+							<div class="contact-form">
+								<form method="post" enctype="multipart/form-data">
+									{% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button class="btn btn-primary w-100" type="submit">Register</button>
+                                    <p>Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- <h2>Register</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
+<p>Already have an account? <a href="{% url 'login' %}">Login here</a>.</p> -->
+
+{% endblock %}

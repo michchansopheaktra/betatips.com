@@ -1,0 +1,287 @@
+{% load static %}
+{{ form.media }}
+
+
+<!DOCTYPE html>
+
+<html lang="en-us">
+
+<head>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-LQ64D1QNMF"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'G-LQ64D1QNMF');
+	</script>
+
+	<!-- Impact Link -->
+	<meta name='impact-site-verification' value='be762b31-402f-4afe-bea2-3299ac523a64' />
+
+	<meta charset="utf-8">
+	<title>{% block title %}{{ meta_title|default:"BetaTips – Free Templates & Design Resources" }}{% endblock %}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+	<meta name="description" content="{{ meta_description|default:'Discover free graphic templates, social media kits, text effects, mockups, and fonts on BetaTips.' }}">
+	<meta name="keywords" content="{{ meta_keywords|default:'free templates, graphic design, mockups, fonts, presets, social media, text effects' }}">
+	<link rel="canonical" href="{{ request.build_absolute_uri }}">
+	<meta name="robots" content="index, follow">
+
+	<meta property="og:title" content="{{ meta_title }}">
+	<meta property="og:description" content="{{ meta_description }}">
+	<meta property="og:url" content="{{ request.build_absolute_uri }}">
+	<meta property="og:image" content="{{ post.image.url|default:'https://betatips.com/static/default-og-image.png' }}">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="{{ meta_title }}">
+	<meta name="twitter:description" content="{{ meta_description }}">
+	<meta name="twitter:image" content="{{ post.image.url|default:'https://betatips.com/static/default-og-image.png' }}">
+
+
+	<link rel="shortcut icon" href="{%static 'images/vicon.png'%}" type="image/x-icon">
+	<link rel="icon" href="{%static 'images/vicon.png'%}" type="image/x-icon">
+
+	<!-- # Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+
+	<!-- # CSS Plugins -->
+	<link rel="stylesheet" href="{%static 'plugins/slick/slick.css'%}">
+	<link rel="stylesheet" href="{%static 'plugins/font-awesome/fontawesome.min.css'%}">
+	<link rel="stylesheet" href="{%static 'plugins/font-awesome/brands.css'%}">
+	<link rel="stylesheet" href="{%static 'plugins/font-awesome/solid.css'%}">
+
+	<!-- # Main Style Sheet -->
+	<link rel="stylesheet" href="{%static 'css/style.css'%}">
+
+	<!-- Bootstrap Icons -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- navigation -->
+<header class="navigation bg-tertiary">
+	<nav class="navbar navbar-expand-xl navbar-light text-center py-3">
+		<div class="container">
+			<a class="navbar-brand" href="{% url 'post_list' %}">
+				<img loading="prelaod" decoding="async" class="img-fluid" width="120" src="{%static 'images/Black-BetaTips-New.png'%}" alt="Wallet">
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
+			</button>
+            
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'post_list' %}">Home</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'post_create' %}">Add Posts</a></li>    
+					<li class="nav-item"> <a class="nav-link" href="{% url 'category_add' %}">Add Categories</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'upload_zip' %}">Upload</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'affiliate_link_create' %}">Affiliate</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'service_create_and_list' %}">Servies</a></li>
+					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Profile
+					</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<!-- <li><a class="dropdown-item " href="{% url 'register' %}">Register</a></li> -->
+							<li><a class="dropdown-item " href="{% url 'profile_detail' user.username %}">View Profile</a>
+							</li>
+							<li><a class="dropdown-item " href="{% url 'edit_profile' %}">Edit Profile</a></li>
+							<li><a class="dropdown-item " href="{% url 'logout' %}">Logout</a></li>
+						</ul>
+					</li>    
+                    {% else %}
+					<li class="nav-item"> <a class="nav-link" href="{% url 'post_list' %}">Home</a>
+					</li>
+					<li class="nav-item "> <a class="nav-link" href="{% url 'about' %}">About</a>
+					</li>
+					<!-- <li class="nav-item "> <a class="nav-link" href="how-it-works.html">How It Works</a>
+					</li> -->
+					<!-- <li class="nav-item "> <a class="nav-link" href="services.html">Services</a>
+					</li> -->
+					<!-- <li class="nav-item "> <a class="nav-link" href="{% url 'products' %}">Best Products</a></li>  -->
+					<li class="nav-item "> <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+					</li>
+					
+					
+                    <li class="nav-item "> <a class="nav-link" href="{% url 'login' %}">Login</a>
+					</li>
+
+				</ul>
+                <div class="">
+                    <form method="get" action="{% url 'post_search' %}" target="_blank">
+                        <div class="input-group newsletter-form">
+                            <input type="text" class="form-control shadow-none bg-white border-end-0" name="q" placeholder="Search posts..." value="{{ request.GET.q }}"> <span class="input-group-text border-0 p-0">
+                <button class="input-group-text border-0 bg-primary" type="submit" name="subscribe"
+                  aria-label="Subscribe for Newsletter"><i class="fas fa-search"></i></button>
+              	</span>
+                        </div>
+                        <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                            <input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074" tabindex="-1">
+                        </div>
+                    </form>
+                </div>
+				<!-- account btn --> <!-- <a href="#!" class="btn btn-outline-primary">Log In</a> -->
+				<!-- account btn --> <!-- <a href="#!" class="btn btn-primary ms-2 ms-lg-3">Sign Up</a> -->
+                {% endif %}
+			</div>
+            
+		</div>
+	</nav>
+</header>
+
+<!-- /navigation -->
+
+
+
+<!-- <form method="get" action="{% url 'post_search' %}">
+    <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+</form>
+
+
+
+{% if user.is_authenticated %}
+    <div class="user-info">
+        <a href="{% url 'post_list' %}">Home</a>
+        <a href="{% url 'post_create' %}">+ New Post</a>
+        <a href="{% url 'category_add' %}">+ New Category</a>
+       
+        <p>Hello, {{ user.username }}!</p>
+        
+        {% if user.profile.profile_picture %}
+            <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" width="50" style="border-radius: 50%;">
+        {% endif %}
+
+        <p>
+            <a href="{% url 'profile_detail' user.username %}">View Profile</a> |
+            <a href="{% url 'edit_profile' %}">Edit Profile</a> |
+        </p>
+
+        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+{% else %}
+    <a href="{% url 'post_list' %}">Home</a> |
+    <a href="{% url 'about' %}">About</a> |
+    <a href="{% url 'contact' %}">Contact</a> |
+    <a href="{% url 'privacy' %}">Privacy</a> |
+    <a href="{% url 'login' %}">Login</a> |
+    <a href="{% url 'register' %}">Register</a>
+{% endif %} -->
+
+{% block content %} 
+
+{% endblock %}
+
+<footer class="section-sm bg-tertiary">
+	<div class="container">
+		
+		<!-- <div class="row justify-content-between">
+			<div class="col-lg-2 col-md-4 col-6 mb-4">
+				<div class="widget footer-widget">
+					<h5 class="widget-title" style="color: #51B56D !important;"><span>Category</span></h5>
+					<ul class="list-unstyled widget-list">
+						{% for cat in categories %}
+						<li class=" mb-2"><a href="{{ cat.get_absolute_url }}"><small class="ml-auto">({{ cat.post_count }})</small>
+							{{ cat.name }}
+						</a>
+						</li>
+						{% empty %}
+                            <li>No categories available.</li>
+                        {% endfor %}
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-2 col-md-4 col-6 mb-4">
+				<div class="footer-widget">
+					<h5 class="mb-4 text-primary font-secondary">About</h5>
+					<ul class="list-unstyled">
+						<li class="mb-2"><a href="#!">Benefits</a>
+						</li>
+						<li class="mb-2"><a href="#!">Careers</a>
+						</li>
+						<li class="mb-2"><a href="#!">Our Story</a>
+						</li>
+						<li class="mb-2"><a href="#!">Team</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-2 col-md-4 col-6 mb-4">
+				<div class="footer-widget">
+					<h5 class="mb-4 text-primary font-secondary">Help</h5>
+					<ul class="list-unstyled">
+						<li class="mb-2"><a href="contact.html">Contact Us</a>
+						</li>
+						<li class="mb-2"><a href="faq.html">FAQs</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-12 newsletter-form">
+				<div class="pe-0">
+					<h5 class="mb-4 text-primary font-secondary">Subscribe</h5>
+					<div class="pe-0 pe-xl-5">
+						<form action="#!" method="post" name="mc-embedded-subscribe-form" target="_blank">
+							<div class="input-group mb-3">
+								<input type="text" class="form-control shadow-none bg-white border-end-0" placeholder="Email address"> <span class="input-group-text border-0 p-0">
+                    <button class="input-group-text border-0 bg-primary" type="submit" name="subscribe"
+                      aria-label="Subscribe for Newsletter"><i class="fas fa-arrow-right"></i></button>
+                  </span>
+							</div>
+							<div style="position: absolute; left: -5000px;" aria-hidden="true">
+								<input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074" tabindex="-1">
+							</div>
+						</form>
+					</div>
+					<p class="mb-0">Get free design templates, fonts, mockups & creative tips straight to your inbox. No spam—just fresh inspiration!</p>
+				</div>
+			</div>
+		</div> -->
+		<div class="row align-items-center mt-5 text-center text-md-start">
+			<div class="col-lg-4">
+        <a href="index.html">
+          <img loading="prelaod" decoding="async" class="img-fluid" width="120" src="{%static 'images/BetaTips-circle.png'%}" alt="Wallet">
+        </a>
+			</div>
+			<div class="col-lg-4 col-md-6 mt-4 mt-lg-0">
+				<ul class="list-unstyled list-inline mb-0 text-lg-center">
+					<li class="list-inline-item me-4"><a class="text-black" href="{% url 'privacy' %}">Privacy Policy</a>
+					</li>
+					<li class="list-inline-item me-4">© copyright 2025 All rights reserved by BETATIPS.COM
+					</li>
+				</ul>
+			</div>
+			<div class="col-lg-4 col-md-6 text-md-end mt-4 mt-md-0">
+				<ul class="list-unstyled list-inline mb-0 social-icons">
+					<li class="list-inline-item me-3"><a title="Explorer Facebook Profile" class="text-black" href="https://web.facebook.com/profile.php?id=61578686743459"><i class="fab fa-facebook-f"></i></a>
+					</li>
+					<li class="list-inline-item me-3"><a title="Explorer Twitter Profile" class="text-black" href="https://x.com/BetatipsInfo"><i class="fab fa-twitter"></i></a>
+					</li>
+					<li class="list-inline-item me-3"><a title="Explorer Pinterest Profile" class="text-black" href="https://www.pinterest.com/betatipsinfo/"><i class="fab fa-pinterest"></i></a>
+					</li>
+					<li class="list-inline-item me-3"><a title="Explorer LinkedIn Profile" class="text-black" href="https://www.linkedin.com/in/beta-tips-847197378/"><i class="fab fa-linkedin"></i></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</footer>
+
+
+<!-- # JS Plugins -->
+<script src="{%static 'plugins/jquery/jquery.min.js'%}"></script>
+<script src="{%static 'plugins/bootstrap/bootstrap.min.js'%}"></script>
+<script src="{%static 'plugins/slick/slick.min.js'%}"></script>
+<script src="{%static 'plugins/scrollmenu/scrollmenu.min.js'%}"></script>
+
+<!-- Main Script -->
+<script src="{%static 'js/script.js'%}"></script>
+
+</body>
+</html>

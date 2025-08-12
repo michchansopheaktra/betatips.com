@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="page-header bg-tertiary">
+	<div class="container">
+		<div class="row">
+			<div class="col-8 mx-auto text-center">
+				<h2 class="mb-3 text-capitalize">About</h2>
+				<ul class="list-inline breadcrumbs text-capitalize" style="font-weight:500">
+					<li class="list-inline-item"><a href="{% url 'post_list' %}">Home</a>
+					</li>
+					<li class="list-inline-item">/ &nbsp; <a href="{% url 'about' %}">About</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	{% include "_page_header.html" %}
+</section>
+<section class="my-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1>About</h1>
+				<p><strong>BetaTips.com</strong> is your go-to creative hub for free high-quality resources and design inspiration. We specialize in curating and sharing professional-grade <strong>posters, templates, text effects, Lightroom presets, mockups, social media kits, fonts</strong>, and more to empower designers, content creators, and digital marketers.</p>
+				<p>Whether you're building your brand on social media, enhancing your design portfolio, or just starting to learn <strong>graphic design skills</strong>, BetaTips offers the tools and tips you need to create standout visuals faster and easier.</p>
+				<p>Our mission is simple — to support the creative community with easy-to-use, free or premium-ready resources that save time and boost creativity. We also publish helpful design tutorials and <strong>tips for using Photoshop, Illustrator, and other design tools</strong> to help you sharpen your skills.</p>
+				<p>At BetaTips, design is not just about aesthetics – it's about smart, effective communication. Join our community of creative minds and take your design game to the next level.</p>
+				<p><strong>Explore. Download. Create.</strong> That’s the BetaTips way.</p>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="my-5">
+	<div class="container">
+	  <div class="row">
+		<div class="col-lg-4 col-md-6">
+		  <div class="section-title pt-4">
+			<p class="text-primary text-uppercase fw-bold mb-3">Our Services</p>
+			<h1>Our online and offline services</h1>
+			<!-- <p>Lorem ipsum dolor sit amet, consectetur adipreiscing elit. Lacus penatibus tincidunt</p> -->
+		  </div>
+		</div>
+		{% for link in services %}
+		<div class="col-lg-4 col-md-6 service-item">
+		  <a class="text-black" href="{{link.link}}">
+			<div class="block">
+			  <h3 class="mb-3 service-title">{{link.title}}</h3>
+			  <p class="mb-0 service-description">{{link.description|truncatewords:25}}</p>
+			</div>
+		  </a>
+		</div>
+		{% empty %}
+			<p>No affiliate links yet.</p>
+		{% endfor %}
+
+	  </div>
+	</div>
+  </section>
+
+  <section class="homepage_tab position-relative">
+	<div class="section container">
+	  <div class="row justify-content-center">
+		<div class="col-lg-10">
+		  <ul class="payment_info_tab nav nav-pills justify-content-center mb-4" id="pills-tab" role="tablist">
+			<li class="nav-item m-2" role="presentation"> <a
+				class="nav-link btn btn-outline-primary effect-none text-dark active" id="pills-how-much-can-i-recive-tab"
+				data-bs-toggle="pill" href="#pills-how-much-can-i-recive" role="tab"
+				aria-controls="pills-how-much-can-i-recive" aria-selected="true">Who We Are?</a>
+			</li>
+			<li class="nav-item m-2" role="presentation"> <a
+				class="nav-link btn btn-outline-primary effect-none text-dark " id="pills-how-much-does-it-costs-tab"
+				data-bs-toggle="pill" href="#pills-how-much-does-it-costs" role="tab"
+				aria-controls="pills-how-much-does-it-costs" aria-selected="true">What We Offer?</a>
+			</li>
+		  </ul>
+		  <div class="rounded shadow bg-white p-5 tab-content" id="pills-tabContent">
+			<div class="tab-pane fade show active" id="pills-how-much-can-i-recive" role="tabpanel"
+			  aria-labelledby="pills-how-much-can-i-recive-tab">
+			  <div class="row align-items-center">
+				<div class="col-md-6 order-1 order-md-0">
+				  <div class="content-block">
+					<h3 class="mb-4">Who We Are?</h3>
+					<div class="content">
+					  <p>BetaTips.com is a passionate design-driven platform built for creators, marketers, and designers. Our mission is to simplify the creative process by offering top-notch, ready-to-use resources that spark ideas and streamline workflows. We believe great design should be accessible to everyone — from beginners to professionals.</p>
+					</div>
+				  </div>
+				</div>
+				<div class="col-md-6 order-0 order-md-1 mb-5 mt-md-0">
+				  <div class="image-block text-center">
+					<img loading="lazy" decoding="async"
+					  src="{% static 'images/who-we-are.png' %}" alt="How Much Can I Recive?" class="img-fluid">
+				  </div>
+				</div>
+			  </div>
+			</div>
+			<div class="tab-pane fade " id="pills-how-much-does-it-costs" role="tabpanel"
+			  aria-labelledby="pills-how-much-does-it-costs-tab">
+			  <div class="row align-items-center">
+				<div class="col-md-6 order-1 order-md-0">
+				  <div class="content-block">
+					<h3 class="mb-4">What We Offer?</h3>
+					<div class="content">
+					  <p><strong>Free and premium templates</strong> — posters, flyers, brochures, and more. At BetaTips, we’re more than just a resource site — we’re a growing creative community. Whether you're designing your first logo or building your brand’s visual identity, we’re here to support every step of your journey.</p>
+					</div>
+				  </div>
+				</div>
+				<div class="col-md-6 order-0 order-md-1 mb-5 mt-md-0">
+				  <div class="image-block text-center">
+					<img loading="lazy" decoding="async" src="{% static 'images/who-we-offer.png' %}" alt="How Much Does It Costs?" class="img-fluid">
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </section>
+  
+
+
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+
+
+<section class="my-5">
+	<div class="container">
+		<div class="row justify-content-center align-items-center">
+			<div class="col-lg-10">
+				<div class="shadow rounded p-5 bg-white">
+					<div class="row">
+						<div class="col-lg-12">
+                            <h2 class="text-center py-3">{% if edit_mode %}Edit Category{% else %}Add Category{% endif %}</h2>
+							<div class="contact-form">
+								<form method="post" enctype="multipart/form-data">
+									{% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button class="btn btn-primary w-100" type="submit">{% if edit_mode %}Update{% else %}Create{% endif %}</button>
+								</form>
+							</div>
+
+							<h3 class="my-5">🗂️ All Categories</h3>
+							
+							<div class="row">
+								{% for category in categories %}
+								  <div class="col-md-4 col-sm-6 mb-4">
+									<div class="card h-100 shadow-sm">
+									  <div class="card-body d-flex flex-column">
+										<h5 class="card-title">{{ category.name }}</h5>
+										<p class="card-text text-muted">
+										  Posts: {{ category.post_count }}
+										</p>
+										<div class="mt-auto">
+										  <a href="{% url 'category_edit' category.slug %}" class="btn btn-sm btn-outline-danger px-3">
+											<i class="bi bi-pencil-square"></i> Edit</a>
+										  <a href="{% url 'category_delete' category.slug %}" class="btn btn-sm btn-outline-danger px-3">
+                                          <i class="bi bi-trash3 me-1"></i> Delete</a>
+										</div>
+									  </div>
+									</div>
+								  </div>
+								{% empty %}
+								  <div class="col-12">
+									<p>No categories found.</p>
+								  </div>
+								{% endfor %}
+							  </div>
+
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if edit_mode %}Update{% else %}Create{% endif %}</button>
+</form> -->
+
+
+{% endblock %}

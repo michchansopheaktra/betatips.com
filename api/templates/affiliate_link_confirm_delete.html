@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="my-5">
+	<div class="container">
+		<div class="row justify-content-center align-items-center">
+			<div class="col-lg-10">
+				<div class="shadow rounded p-5 bg-white">
+					<div class="row">
+						<div class="col-lg-12">
+
+
+                            <h2 class="text-center py-3">Confirm Delete</h2>
+                            <p>Are you sure you want to delete the affiliate link: <strong>{{ link.title }}</strong>?</p>
+
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-secondary">Cancel</a>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
